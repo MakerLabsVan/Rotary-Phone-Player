@@ -60,7 +60,7 @@ while True:
 		if GPIO.input(hookPin) == False:
 			state = 0
 	
-	# init state: reset variables and remove interrupt if applicable
+	# init state: reset variables and remove interrupt
 	if state == 0:
 		number = 0
 		phoneNumber = []
