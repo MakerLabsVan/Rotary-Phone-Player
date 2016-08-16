@@ -1,10 +1,10 @@
 from omxplayer import OMXPlayer
+import time
 import RPi.GPIO as GPIO
-import time 
 
 # Constants
-pulsePin = 26
-hookPin = 19
+pulsePin = 26 # White to Red
+hookPin = 19 # Green to Brown
 hookDebounce = 0.1
 debounceTime = 100
 pollInterval = 0.5
@@ -15,11 +15,9 @@ lastDigitPosition = -1
 state = 0
 number = 0
 phoneNumber = []
-startTime = time.time()
-lastPlay = 0
 isInterrupt = False
+startTime = time.time()
 player = OMXPlayer('./recordings/dialtone.wav')
-player.set_volume(20000)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pulsePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -103,7 +101,7 @@ while True:
 			phoneNumber = []
 			state = 3
 	
-	# pick track state: based on the last digit, select a recording to play
+	# select track state: based on the last digit, select a recording to play
 	elif state == 3:
 		recordingToPlay = selectRecording(lastDigit)
 		player = OMXPlayer(recordingToPlay)
@@ -116,12 +114,4 @@ while True:
 
 	else:
 		state = 0
-
-	# if there is motion detected, play video through HDMI in separate process
-	# SUBPROCESS NOT WORKING
-	#if GPIO.input(sensorPin) == False:
-	#	if (time.time() - lastPlay) > clipDuration:
-	#		print "motion detected"
-	#		subprocess.call('omxplayer -o hdmi /home/pi/Desktop/recordings/imperial-march.mp3', shell=True)
-	#		lastPlay = time.time()
 					
