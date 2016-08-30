@@ -10,6 +10,7 @@ debounceTime = 100
 pollInterval = 0.5
 phoneNumLength = 4 
 lastDigitPosition = -1
+pathToFiles = './recordings/'
 
 # Variables
 state = 0
@@ -17,7 +18,7 @@ number = 0
 phoneNumber = []
 isInterrupt = False
 startTime = time.time()
-player = OMXPlayer('./recordings/dialtone.wav')
+player = OMXPlayer(path + 'dialtone.wav')
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pulsePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -32,25 +33,25 @@ def countPulse(channel):
 def selectRecording(number):
 	if number == 1:
 		print "Play Track 1"
-		return './recordings/Aela.wav'
+		return 'Aela.wav'
 	elif number == 2:
 		print "Play Track 2"
-		return './recordings/Rudy.wav'
+		return 'Rudy.wav'
 	elif number == 3:
 		print "Play Track 3"
-		return './recordings/imperial-march.mp3'
+		return 'imperial-march.mp3'
 	elif number == 4:
 		print "Play Track 4"
-		return './recordings/Maureen.wav'
+		return 'Maureen.wav'
 	elif number == 5:
 		print "Play Track 5"
-		return './recordings/Monty.wav'
+		return 'Monty.wav'
 	elif number == 6:
 		print "Play Track 6"
-		return './recordings/Mariette.wav'
+		return 'Mariette.wav'
 	else:
 		print "No Track"
-		return './recordings/operator.wav'
+		return 'operator.wav'
 
 # Continously run loop
 while True:
@@ -77,7 +78,7 @@ while True:
 	elif state == 1:
 		print "RESET"
 		player.stop()
-		player = OMXPlayer('./recordings/dialtone.wav')
+		player = OMXPlayer(path + 'dialtone.wav')
 		player.play()
 
 		if isInterrupt == False:
@@ -104,7 +105,7 @@ while True:
 	# select track state: based on the last digit, select a recording to play
 	elif state == 3:
 		recordingToPlay = selectRecording(lastDigit)
-		player = OMXPlayer(recordingToPlay)
+		player = OMXPlayer(path + recordingToPlay)
 		player.play()
 		state = 4
 	
